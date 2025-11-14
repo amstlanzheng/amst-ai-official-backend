@@ -80,8 +80,9 @@ mvn spring-boot:run
     <3> 将[Dockerfile](Dockerfile),[.env](.env)和jar包放在同一目录，执行
    `docker rm -f amst-ai-app`
    `docker build -t amst-ai-app .`  
-   `docker run -d --name amst-ai-app -p 8080:8080 --env-file .env amst-ai-app`
-    <4> 使用命令查看运行中的容器 `docker ps`
+   `docker run -d --name amst-ai-app -p 8080:8866 --env-file .env amst-ai-app`
+    <4> 使用命令查看运行中的容器 `docker ps`\
+    <5> 使用命令查看运行日志`docker logs amst-ai-app`
     
 ### 4. 访问接口
 
