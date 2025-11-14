@@ -1,0 +1,61 @@
+server:
+  port: 8866
+  servlet:
+    context-path: /api
+spring:
+  ai:
+    deepseek:
+      chat:
+        options:
+          model: deepseek-chat
+      api-key: ${DEEPSEEK_API_KEY}
+      base-url: https://api.deepseek.com
+    chat:
+      memory:
+        repository:
+          jdbc:
+            # 第一次运行，参数用 always 后续改为 embedded
+            initialize-schema: always
+            platform: mariadb
+  application:
+    name: amst-base-api
+  # 数据库配置
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST}:3344/${MYSQL_DATABASE}?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&allowMultiQueries=true&allowPublicKeyRetrieval=true&useSSL=false&allowLoadLocalInfile=true
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+      timeout: 5000
+      jedis:
+        pool:
+          max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
+          max-wait: -1ms      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+          max-idle: 10      # 连接池中的最大空闲连接
+          min-idle: 5       # 连接池中的最小空闲连接
+
+
+
+# 接口文档配置
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.amst.api.controller
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
