@@ -20,6 +20,4 @@ public interface AiReplyRecordService extends IService<AiReplyRecord> {
      */
     String aiReply(String appId, String fromUser, String message, AiReplyRecord aiReplyRecord);
 
-    String aiReply2(String appId, String fromUser, String message, AiReplyRecord aiReplyRecord);
-
 }

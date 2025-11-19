@@ -18,6 +18,7 @@ import me.chanjar.weixin.mp.bean.message.WxMpXmlOutTextMessage;
 import me.chanjar.weixin.mp.util.WxMpConfigStorageHolder;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -32,7 +33,8 @@ import java.util.Map;
 public class MessageHandler implements WxMpMessageHandler {
     private final WxReplyRuleService wxReplyRuleService;
     private final AiReplyRecordService aiReplyRecordService;
-
+    @Value("${wx.is-service:false}")
+    private Boolean isService;
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMpXmlMessage, Map<String, Object> map,
                                     WxMpService wxMpService, WxSessionManager wxSessionManager) {
@@ -41,9 +43,15 @@ public class MessageHandler implements WxMpMessageHandler {
         String userMessage = wxMpXmlMessage.getContent();
         String fromUser = wxMpXmlMessage.getFromUser();
 
+        String replyMessage = null;
+        if (isService){
+            replyMessage = "AI助手思考中。。。";
+        }else{
+            replyMessage = String.format("正在思考中，请 10 秒后再次发送原问题：%s", userMessage);
+        }
         // 定义默认的延迟回复消息
         WxMpXmlOutTextMessage defaultReplyMessage = WxMpXmlOutMessage.TEXT()
-                .content(String.format("正在思考中，请 10 秒后再次发送原问题：%s", userMessage))
+                .content(replyMessage)
                 .fromUser(wxMpXmlMessage.getToUser())
                 .toUser(fromUser)
                 .build();

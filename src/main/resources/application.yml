@@ -3,6 +3,32 @@ server:
   servlet:
     context-path: /api
 spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASSWORD}
+    virtual-host: /
+    # 连接池配置
+    connection-timeout: 5000
+    template:
+      retry:
+        enabled: true
+        initial-interval: 1000
+        max-attempts: 3
+        multiplier: 1.5
+    listener:
+      simple:
+        # 消费者配置
+        acknowledge-mode: auto
+        concurrency: 3
+        max-concurrency: 10
+        prefetch: 10
+        retry:
+          enabled: true
+          initial-interval: 1000
+          max-attempts: 3
+          max-interval: 10000
   ai:
     deepseek:
       chat:
@@ -59,3 +85,7 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
+
+
+wx:
+  is-service: false

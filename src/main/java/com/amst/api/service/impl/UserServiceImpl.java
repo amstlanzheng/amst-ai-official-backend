@@ -7,21 +7,20 @@ import com.amst.api.common.constant.UserConstant;
 import com.amst.api.common.enums.UserRoleEnum;
 import com.amst.api.common.exception.BusinessException;
 import com.amst.api.common.exception.ErrorCode;
+import com.amst.api.mapper.UserMapper;
 import com.amst.api.model.dto.UserQueryRequest;
+import com.amst.api.model.entity.User;
 import com.amst.api.model.vo.LoginUserVO;
 import com.amst.api.model.vo.UserVO;
+import com.amst.api.service.UserService;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
-import com.amst.api.model.entity.User;
-import com.amst.api.mapper.UserMapper;
-import com.amst.api.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
